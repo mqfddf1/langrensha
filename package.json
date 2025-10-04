@@ -1,0 +1,32 @@
+{
+  "name": "werewolf-judge",
+  "version": "1.0.0",
+  "description": "狼人杀法官助手 - 专业的狼人杀游戏管理工具",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve -s . -l 3000",
+    "dev": "npx serve -s . -l 3000",
+    "build": "echo 'Static site, no build needed'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "werewolf",
+    "game",
+    "judge",
+    "web",
+    "static"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/werewolf-judge.git"
+  },
+  "homepage": "https://your-project.vercel.app"
+}

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>狼人杀法官助手</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 主页面 -->
+        <div id="mainPage" class="page active">
+            <div class="header">
+                <h1><i class="fas fa-mask"></i> 狼人杀法官助手</h1>
+                <p>专业的狼人杀游戏管理工具</p>
+            </div>
+            
+            <div class="main-actions">
+                <button id="createRoomBtn" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i>
+                    创建房间
+                </button>
+                <button id="joinRoomBtn" class="btn btn-secondary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    加入房间
+                </button>
+                <button id="rulesBtn" class="btn btn-info">
+                    <i class="fas fa-book"></i>
+                    游戏规则
+                </button>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-users"></i>
+                    <h3>多人游戏</h3>
+                    <p>支持4-20人游戏</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-magic"></i>
+                    <h3>智能法官</h3>
+                    <p>自动管理游戏流程</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-share-alt"></i>
+                    <h3>邀请链接</h3>
+                    <p>一键分享房间链接</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 创建房间页面 -->
+        <div id="createRoomPage" class="page">
+            <div class="header">
+                <button id="backToMainBtn" class="btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>创建房间</h2>
+            </div>
+            
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="roomName">房间名称</label>
+                    <input type="text" id="roomName" placeholder="请输入房间名称" maxlength="20">
+                </div>
+                
+                <div class="form-group">
+                    <label for="playerName">您的昵称</label>
+                    <input type="text" id="playerName" placeholder="请输入您的昵称" maxlength="10">
+                </div>
+                
+                <div class="form-group">
+                    <label for="maxPlayers">最大人数</label>
+                    <select id="maxPlayers">
+                        <option value="6">6人局</option>
+                        <option value="8">8人局</option>
+                        <option value="10">10人局</option>
+                        <option value="12">12人局</option>
+                        <option value="15">15人局</option>
+                        <option value="20">20人局</option>
+                    </select>
+                </div>
+                
+                <button id="confirmCreateBtn" class="btn btn-primary">
+                    <i class="fas fa-check"></i>
+                    确认创建
+                </button>
+            </div>
+        </div>
+
+        <!-- 加入房间页面 -->
+        <div id="joinRoomPage" class="page">
+            <div class="header">
+                <button id="backToMainBtn2" class="btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>加入房间</h2>
+            </div>
+            
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="roomCode">房间号</label>
+                    <input type="text" id="roomCode" placeholder="请输入6位房间号" maxlength="6">
+                </div>
+                
+                <div class="form-group">
+                    <label for="joinPlayerName">您的昵称</label>
+                    <input type="text" id="joinPlayerName" placeholder="请输入您的昵称" maxlength="10">
+                </div>
+                
+                <button id="confirmJoinBtn" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    加入房间
+                </button>
+            </div>
+        </div>
+
+        <!-- 游戏房间页面 -->
+        <div id="gameRoomPage" class="page">
+            <div class="header">
+                <div class="room-info">
+                    <h2 id="currentRoomName">房间名称</h2>
+                    <p>房间号: <span id="currentRoomCode"></span></p>
+                </div>
+                <div class="room-actions">
+                    <button id="shareRoomBtn" class="btn btn-small">
+                        <i class="fas fa-share"></i>
+                        分享
+                    </button>
+                    <button id="exitRoomBtn" class="btn btn-small btn-danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                        退出
+                    </button>
+                </div>
+            </div>
+            
+            <div class="game-content">
+                <div class="players-section">
+                    <h3>玩家列表 (<span id="playerCount">0</span>/<span id="maxPlayerCount">0</span>)</h3>
+                    <div id="playersList" class="players-list">
+                        <!-- 玩家列表将在这里动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="game-controls">
+                    <button id="startGameBtn" class="btn btn-primary" disabled>
+                        <i class="fas fa-play"></i>
+                        开始游戏
+                    </button>
+                    <button id="kickPlayerBtn" class="btn btn-secondary" disabled>
+                        <i class="fas fa-user-times"></i>
+                        踢出玩家
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏进行页面 -->
+        <div id="gamePlayPage" class="page">
+            <div class="header">
+                <h2>游戏进行中</h2>
+                <p>第 <span id="currentDay">1</span> 天</p>
+            </div>
+            
+            <div class="game-phase">
+                <div id="phaseInfo" class="phase-info">
+                    <h3 id="currentPhase">等待开始</h3>
+                    <p id="phaseDescription">游戏即将开始，请等待法官指令</p>
+                </div>
+                
+                <div class="timer-section">
+                    <div class="timer" id="gameTimer">
+                        <span id="timerDisplay">00:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-actions">
+                <button id="nextPhaseBtn" class="btn btn-primary">
+                    <i class="fas fa-forward"></i>
+                    下一阶段
+                </button>
+                <button id="endGameBtn" class="btn btn-danger">
+                    <i class="fas fa-stop"></i>
+                    结束游戏
+                </button>
+            </div>
+        </div>
+
+        <!-- 游戏规则页面 -->
+        <div id="rulesPage" class="page">
+            <div class="header">
+                <button id="backToMainBtn3" class="btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>游戏规则</h2>
+            </div>
+            
+            <div class="rules-content">
+                <div class="rule-section">
+                    <h3><i class="fas fa-users"></i> 游戏人数</h3>
+                    <p>支持4-20人游戏，推荐8-12人</p>
+                </div>
+                
+                <div class="rule-section">
+                    <h3><i class="fas fa-mask"></i> 角色介绍</h3>
+                    <div class="role-list">
+                        <div class="role-item">
+                            <strong>狼人：</strong>夜晚可以击杀一名玩家，目标是消灭所有好人
+                        </div>
+                        <div class="role-item">
+                            <strong>村民：</strong>没有特殊技能，通过投票帮助好人获胜
+                        </div>
+                        <div class="role-item">
+                            <strong>预言家：</strong>每晚可以查验一名玩家的身份
+                        </div>
+                        <div class="role-item">
+                            <strong>女巫：</strong>拥有一瓶解药和一瓶毒药，每瓶只能用一次
+                        </div>
+                        <div class="role-item">
+                            <strong>猎人：</strong>被放逐或被狼人击杀时可以带走一名玩家
+                        </div>
+                        <div class="role-item">
+                            <strong>守卫：</strong>每晚可以守护一名玩家，但不能连续守护同一人
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rule-section">
+                    <h3><i class="fas fa-clock"></i> 游戏流程</h3>
+                    <div class="phase-list">
+                        <div class="phase-item">
+                            <strong>夜晚阶段：</strong>狼人选择击杀目标，其他角色使用技能
+                        </div>
+                        <div class="phase-item">
+                            <strong>白天阶段：</strong>公布死亡情况，开始讨论
+                        </div>
+                        <div class="phase-item">
+                            <strong>投票阶段：</strong>所有玩家投票选出要放逐的玩家
+                        </div>
+                        <div class="phase-item">
+                            <strong>结果阶段：</strong>公布投票结果，被放逐玩家发表遗言
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rule-section">
+                    <h3><i class="fas fa-trophy"></i> 胜利条件</h3>
+                    <div class="victory-list">
+                        <div class="victory-item">
+                            <strong>狼人胜利：</strong>狼人数量 ≥ 好人数量
+                        </div>
+                        <div class="victory-item">
+                            <strong>好人胜利：</strong>消灭所有狼人
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分享模态框 -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>分享房间</h3>
+                <button id="closeShareModal" class="btn-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>房间号: <strong id="shareRoomCode"></strong></p>
+                <p>邀请链接:</p>
+                <div class="share-link">
+                    <input type="text" id="shareLink" readonly>
+                    <button id="copyLinkBtn" class="btn btn-small">
+                        <i class="fas fa-copy"></i>
+                        复制
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
